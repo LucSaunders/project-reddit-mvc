@@ -1,25 +1,27 @@
-const Collection = (config) => {
-  const models = []
+// When a user fills out the form for a new post, create a new model and a new view, associate them and render them to the page. First add a View to utils.js:
+
+const Collection = config => {
+  const models = [];
 
   const init = () => {
     if (config) {
-      models.push(config)
+      models.push(config);
     }
-  }
+  };
 
-  let changeCallback = null
+  let changeCallback = null;
 
-  const add = (item) => {
+  const add = item => {
     if (!_.includes(models, item) || _.isEmpty(models)) {
       models.push(item);
 
       if (changeCallback) {
-        changeCallback()
+        changeCallback();
       }
     }
-  }
+  };
 
-  const change = (func) => changeCallback = func;
+  const change = func => (changeCallback = func);
 
   init();
 
@@ -27,38 +29,76 @@ const Collection = (config) => {
     add,
     models,
     change
-  }
+  };
 };
 
-const Model = (config) => {
-  const attributes = {}
-
-  let changeCallback = null
+const Model = config => {
+  const attributes = {};
+  let changeCallback = null;
 
   const init = () => Object.assign(attributes, config);
 
   const set = (prop, value) => {
-    const tempObj = Object.assign({}, attributes)
+    const tempObj = Object.assign({}, attributes);
 
-    tempObj[prop] = value
+    tempObj[prop] = value;
 
     if (!_.isEqual(attributes, tempObj)) {
-      attributes[prop] = value
+      attributes[prop] = value;
 
       if (changeCallback) {
-        changeCallback()
+        changeCallback();
       }
     }
   };
 
-  const get = (prop) => attributes[prop];
-  const change = (func) => changeCallback = func;
+  const get = prop => attributes[prop];
+  const change = func => (changeCallback = func);
 
-  init()
+  init();
 
   return {
     set,
     get,
     change
-  }
+  };
 };
+
+const View = (model, template) => {
+  const render = function() {
+    var attrs = model.getAttributes();
+    return template(attrs);
+  };
+
+  return {
+    render
+  };
+};
+
+$('.add-post').on('click', function() {
+  var user = $('#post-user').val();
+  var text = $('#post-name').val();
+
+  var postModel = Model({ text: text, name: user });
+});
+// View takes two arguments: its model and the template. The template will be a template function built with handlebars. Inside render, turn the model into a simple object and invoke the template function using that object. 
+
+// Add a getAttributes function to the Model factory function so that the view's render works.
+
+$('.add-post').on('click', function() {
+  var user = $('#post-user').val();
+  var text = $('#post-name').val();
+
+  var postModel = Model({ text: text, name: user });
+
+  var template = Handlebars.compile($('#post-template').html());
+
+  var postView = View(postModel, template);
+
+  postModel.change(function() {
+    postView.render();
+  });
+
+  $('.posts').append(postView.render());
+});
+
