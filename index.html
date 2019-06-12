@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <!-- bootstrap 3.2.0 -->
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
-    `<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.js"></script>`
+    <!-- lodash 4.17.4 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.js"></script>
+    <!-- jquery 2.1.4 -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js">
-    </script>
+    <!-- fontawesome -->
+    <script src="https://use.fontawesome.com/9bb473da46.js"></script>
   <title></title>
 </head>
 <body>
@@ -19,7 +22,7 @@
       <div class="posts">
       </div>
 
-      <form class="beer-form">
+      <form class="post-form">
         <h3>Add a New Post</h3>
 
         <div class="form-group">
@@ -35,17 +38,6 @@
 
     </div>
   </div>
-
-  <script id="post-template" type="text/x-handlebars-template">
-    <div class="post">
-      <a href="#" class="remove">remove</a>
-        {{ text }}
-        <div>
-          Posted By: <strong> {{ name }} </strong>
-        </div>
-        <hr/>
-    </div>
-  </script>
 
   <script src="utils.js"></script>
   <script src="main.js"></script>
